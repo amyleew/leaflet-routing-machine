@@ -46,19 +46,52 @@
 			createGeocoder: function() {
 				var container = L.DomUtil.create('div', 'leaflet-routing-geocoder'),
 					input = L.DomUtil.create('input', '', container),
+					panLink = L.DomUtil.create('button', '', container),
 					remove = L.DomUtil.create('span', 'leaflet-routing-remove-waypoint', container);
 
 				return {
 					container: container,
 					input: input,
+					panLink: panLink,
 					closeButton: remove
 				};
 			},
 			createMarker: function(i, wp) {
 				var options = {
 						draggable: this.draggableWaypoints
-					},
-				    marker = L.marker(wp.latLng, options);
+					};
+
+				if (i == 0) {
+						var myIcon = L.icon({
+						    iconUrl: '/images/marker-green-icon.png',
+						    iconRetinaUrl: '/images/marker-green-icon-2x.png',
+						    iconSize: [20, 33]
+						});
+						var marker = L.marker([wp.latLng.lat, wp.latLng.lng], {
+							icon: myIcon,
+							draggable: options
+						}).addTo(map);
+					} else if (i === this.waypoints.length - 1) {
+						var myIcon = L.icon({
+						    iconUrl: '/images/marker-red-icon.png',
+						    iconRetinaUrl: '/images/marker-red-icon-2x.png',
+						    iconSize: [20, 33]
+						});
+						var marker = L.marker([wp.latLng.lat, wp.latLng.lng], {
+							icon: myIcon,
+							draggable: options
+						}).addTo(map);
+					} else {
+						var myIcon = L.icon({
+						    iconUrl: '/images/marker-icon.png',
+						    iconRetinaUrl: '/images/marker-icon-2x.png',
+						    iconSize: [20, 33]
+						});
+						var marker = L.marker([wp.latLng.lat, wp.latLng.lng], {
+							icon: myIcon,
+							draggable: options
+						}).addTo(map);
+					}
 
 				return marker;
 			},
@@ -189,6 +222,12 @@
 			// initialized.
 			// TODO: look into why and make _updateWaypointName fix this.
 			geocoderInput.value = wp.name;
+
+			// add function for panLink
+			L.DomEvent.addListener(g.panLink, 'click', function() {
+				//console.log(wp);
+				this._map.panTo(wp.latLng);
+			}, this);
 
 			L.DomEvent.addListener(geocoderInput, 'click', function() {
 				selectInputText(this);

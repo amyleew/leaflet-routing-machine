@@ -1497,6 +1497,48 @@ if (typeof module !== undefined) module.exports = polyline;
 			formatOrder: function(n) {
 				return n + 'º';
 			}
+		},
+		'it': {
+			directions: {
+				N: 'nord',
+				NE: 'nord-est',
+				E: 'est',
+				SE: 'sud-est',
+				S: 'sud',
+				SW: 'sud-ovest',
+				W: 'ovest',
+				NW: 'nord-ovest'
+			},
+			instructions: {
+				// instruction, postfix if the road is named
+				'Head':
+					['Dritto verso {dir}', ' su {road}'],
+				'Continue':
+					['Continuare verso {dir}', ' su {road}'],
+				'SlightRight':
+					['Mantenere la destra', ' su {road}'],
+				'Right':
+					['A destra', ' su {road}'],
+				'SharpRight':
+					['Strettamente a destra', ' su {road}'],
+				'TurnAround':
+					['Fare inversione di marcia'],
+				'SharpLeft':
+					['Strettamente a sinistra', ' su {road}'],
+				'Left':
+					['A sinistra', ' sur {road}'],
+				'SlightLeft':
+					['Mantenere la sinistra', ' su {road}'],
+				'WaypointReached':
+					['Punto di passaggio raggiunto'],
+				'Roundabout':
+					['Alla rotonda, prendere la {exitStr} uscita'],
+				'DestinationReached':
+					['Destinazione raggiunta'],
+			},
+			formatOrder: function(n) {
+				return n + 'º';
+			}
 		}
 	};
 
@@ -1729,7 +1771,7 @@ if (typeof module !== undefined) module.exports = polyline;
 				var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
 				lng += dlng;
 				//array.push( {lat: lat * precision, lng: lng * precision} );
-				array.push( [lat * precision, lng * precision] );
+				array.push( L.latLng(lat * precision, lng * precision) );
 			}
 			return array;
 		},
@@ -1869,19 +1911,52 @@ if (typeof module !== undefined) module.exports = polyline;
 			createGeocoder: function() {
 				var container = L.DomUtil.create('div', 'leaflet-routing-geocoder'),
 					input = L.DomUtil.create('input', '', container),
+					panLink = L.DomUtil.create('button', '', container),
 					remove = L.DomUtil.create('span', 'leaflet-routing-remove-waypoint', container);
 
 				return {
 					container: container,
 					input: input,
+					panLink: panLink,
 					closeButton: remove
 				};
 			},
 			createMarker: function(i, wp) {
 				var options = {
 						draggable: this.draggableWaypoints
-					},
-				    marker = L.marker(wp.latLng, options);
+					};
+
+				if (i == 0) {
+						var myIcon = L.icon({
+						    iconUrl: '/images/marker-green-icon.png',
+						    iconRetinaUrl: '/images/marker-green-icon-2x.png',
+						    iconSize: [20, 33]
+						});
+						var marker = L.marker([wp.latLng.lat, wp.latLng.lng], {
+							icon: myIcon,
+							draggable: options
+						}).addTo(map);
+					} else if (i === this.waypoints.length - 1) {
+						var myIcon = L.icon({
+						    iconUrl: '/images/marker-red-icon.png',
+						    iconRetinaUrl: '/images/marker-red-icon-2x.png',
+						    iconSize: [20, 33]
+						});
+						var marker = L.marker([wp.latLng.lat, wp.latLng.lng], {
+							icon: myIcon,
+							draggable: options
+						}).addTo(map);
+					} else {
+						var myIcon = L.icon({
+						    iconUrl: '/images/marker-icon.png',
+						    iconRetinaUrl: '/images/marker-icon-2x.png',
+						    iconSize: [20, 33]
+						});
+						var marker = L.marker([wp.latLng.lat, wp.latLng.lng], {
+							icon: myIcon,
+							draggable: options
+						}).addTo(map);
+					}
 
 				return marker;
 			},
@@ -2012,6 +2087,12 @@ if (typeof module !== undefined) module.exports = polyline;
 			// initialized.
 			// TODO: look into why and make _updateWaypointName fix this.
 			geocoderInput.value = wp.name;
+
+			// add function for panLink
+			L.DomEvent.addListener(g.panLink, 'click', function() {
+				//console.log(wp);
+				this._map.panTo(wp.latLng);
+			}, this);
 
 			L.DomEvent.addListener(geocoderInput, 'click', function() {
 				selectInputText(this);
@@ -2275,7 +2356,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			},
 			initialize: function(latLng, name, options) {
 				L.Util.setOptions(this, options);
-				this.latLng = latLng;
+				this.latLng = L.latLng(latLng);
 				this.name = name;
 			}
 		});
