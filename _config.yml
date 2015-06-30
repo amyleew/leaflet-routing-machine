@@ -1,6 +1,0 @@
-markdown:     rdiscount
-permalink:    pretty
-pygments:     true
-paginate:     5
-url:          http://www.liedman.net/leaflet-routing-machine
-baseurl:      /leaflet-routing-machine

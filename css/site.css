@@ -1,29 +1,12 @@
-code {
-    background: none;
-    border: none;
-    border-radius: 0;
-}
+html, body  {
+	height: 100%;
+	margin: 0px;
+  }
 
-.map {
+#map {
     width: 100%;
-    height: 640px;
-}
-
-.hero {
-    position: relative;
-}
-
-.hero-header {
-    margin: auto;
-    background: rgba(255,255,255,0.7);
-    width: 100%;
-    text-align: center;
-    margin-top: 32px;
-}
-
-.hero-heading a {
-    color: inherit;
-    text-decoration: none;
+    height: 100%;
+    z-index: 0;
 }
 
 .leaflet-container input {
@@ -49,11 +32,4 @@ code {
     margin-top: inherit;
     margin-bottom: inherit;
     font-weight: inherit;
-}
-
-pre > code {
-    display: block;
-    padding: 0;
-    margin: 0;
-    font-size: 100%;
 }
