@@ -3,6 +3,7 @@
     background-color: white;
     padding-top: 4px;
     transition: all 0.2s ease;
+	float: right;
 }
 
 .leaflet-control-container .leaflet-routing-container-hide {
@@ -102,11 +103,13 @@
     padding: 4px 0px 4px 0px;
 }
 
+
 .leaflet-routing-geocoders input {
-    width: 303px;
-    width: calc(100% - 4px);
+    width: calc(90% - 4px);
     line-height: 1.67;
     border: 1px solid #ccc;
+	  margin-right: 22px;
+	padding: 3px;
 }
 
 .leaflet-routing-geocoders button {

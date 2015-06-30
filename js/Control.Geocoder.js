@@ -579,6 +579,8 @@
 		return new L.Control.Geocoder.MapQuest(key);
 	};
 
+/* Geocoder driving instructions drive */
+
 	L.Control.Geocoder.Mapbox = L.Class.extend({
 		options: {
 			service_url: 'https://api.tiles.mapbox.com/v4/geocode/mapbox.places-v1/'
