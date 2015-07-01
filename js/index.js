@@ -92,8 +92,7 @@ var plan = new ReversablePlan([], {
         routeWhileDragging: true,
   		position: 'topright',
   		useZoomParameter: true,
-		reverseWaypoints: true,
-    	addButtonClassName: 'mapbox-directions-button-add'
+		reverseWaypoints: true
     }),
     control = L.Routing.control({
         routeWhileDragging: true,

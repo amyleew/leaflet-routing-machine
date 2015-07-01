@@ -14,11 +14,19 @@ html, body  {
 }
 
 .leaflet-container button {
-    display: inherit;
-    height: inherit;
-    width: inherit;
-    padding: inherit;
-    box-sizing: inherit;
+  display: inherit;
+  padding: inherit;
+  box-sizing: inherit;
+  margin: 0 0 0 0;
+  position: relative;
+  float: left;
+  width: 20px;
+  height: 20px;
+  background-color: #ccc;
+  border: 5px solid rgba(255, 255, 255, 1);
+  border-radius: 0px;
+  padding-left: 5px;
+}
 }
 
 .leaflet-container th, .leaflet-container td {
