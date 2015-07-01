@@ -17,13 +17,12 @@ html, body  {
   display: inherit;
   padding: inherit;
   box-sizing: inherit;
-  margin: 0 0 0 0;
+  margin: 0 10px 0 0;
   position: relative;
   float: left;
-  width: 20px;
-  height: 28px;
+  width: 50px;
+  height: 50px;
   background-color: #ccc;
-  border: 5px solid rgba(255, 255, 255, 1);
   border-radius: 0px;
   padding-left: 5px;
 }
@@ -140,6 +139,11 @@ button.mapbox-directions-button-add
     border-radius: 0px;
 }
 
+.leaflet-routing-container-hide.dark
+{
+   margin: -300px !important;
+}
+
 .leaflet-routing-container
 {
     position: fixed;
@@ -168,8 +172,7 @@ button.mapbox-directions-button-add
     height: 35%;
 }
 
-.leaflet-routing-container.dark
-{
+.leaflet-routing-container.dark {
    z-index: 9;
    background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.8);
    top: 0px;
@@ -239,14 +242,13 @@ button.mapbox-directions-button-add
 
 /* DIRECTIONS UI */
 
-.mapbox-directions-inputs
-{
+.mapbox-directions-inputs {
    position: fixed;
    z-index:10;
    left: 10px;
    top: 10px;
    width: 33%;
-   max-width: 500px;
+   max-width: 400px;
    min-width: 200px;
 }
 

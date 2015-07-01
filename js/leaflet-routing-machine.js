@@ -838,8 +838,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			alternativeClassName: '',
 			minimizedClassName: '',
 			itineraryClassName: '',
-			show: true,
-			collapsible: undefined
+			show: true
 		},
 
 		initialize: function(options) {
@@ -857,8 +856,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			collapsible = collapsible || (collapsible === undefined && map.getSize().x <= 640);
 
 			this._container = L.DomUtil.create('div', 'leaflet-routing-container leaflet-bar ' +
-				(!this.options.show ? 'leaflet-routing-container-hide ' : '') +
-				(collapsible ? 'leaflet-routing-collapsible ' : '') +
+				(!this.options.show ? 'leaflet-routing-container-hide ' : '') + 
 				this.options.containerClassName);
 			this._altContainer = this.createAlternativesContainer();
 			this._container.appendChild(this._altContainer);
@@ -878,6 +876,7 @@ if (typeof module !== undefined) module.exports = polyline;
 
 		onRemove: function() {
 		},
+		
 
 		createAlternativesContainer: function() {
 			return L.DomUtil.create('div', 'leaflet-routing-alternatives-container');
@@ -912,13 +911,8 @@ if (typeof module !== undefined) module.exports = polyline;
 			L.DomUtil.addClass(this._container, 'leaflet-routing-container-hide');
 		},
 
-		_toggle: function() {
-			var collapsed = L.DomUtil.hasClass(this._container, 'leaflet-routing-container-hide');
-			this[collapsed ? 'show' : 'hide']();
-		},
-
 		_createAlternative: function(alt, i) {
-			var altDiv = L.DomUtil.create('div', 'leaflet-routing-alt ' +
+			var altDiv = L.DomUtil.create('div', 'leaflet-routing-alt mapbox-directions-instructions ' +
 				this.options.alternativeClassName +
 				(i > 0 ? ' leaflet-routing-alt-minimized ' + this.options.minimizedClassName : '')),
 				template = this.options.summaryTemplate,
@@ -1965,6 +1959,7 @@ if (typeof module !== undefined) module.exports = polyline;
 			delete this._map;
 		},
 
+
 		createGeocoders: function() {
 			var container = L.DomUtil.create('div', 'leaflet-routing-geocoders ' + this.options.geocodersClassName),
 				waypoints = this._waypoints,
@@ -1973,7 +1968,6 @@ if (typeof module !== undefined) module.exports = polyline;
 
 			this._geocoderContainer = container;
 			this._geocoderElems = [];
-
 
 			if (this.options.addWaypoints) {
 				addWpBtn = L.DomUtil.create('button', 'leaflet-routing-add-waypoint ' + this.options.addButtonClassName, container);

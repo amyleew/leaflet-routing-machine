@@ -2,13 +2,7 @@
     width: 320px;
     background-color: white;
     padding-top: 4px;
-    transition: all 0.2s ease;
-	float: right;
-}
-
-.leaflet-control-container .leaflet-routing-container-hide {
-    width: 32px;
-    height: 32px;
+    transition: margin-right 0.2s ease;
 }
 
 .leaflet-routing-container h2 {
@@ -50,13 +44,26 @@
     cursor: pointer;
 }
 
-.leaflet-routing-alt table {
-    border-collapse: collapse;
+.leaflet-routing-alt table,
+.leaflet-routing-alt table td {  
+  /* border-collapse: collapse; */
+  color: rgba(255, 255, 255, 0.7);
+  /* line-height: 20px; */
+  margin-top: 20px;
+  padding: 5px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  font-weight: 200;
 }
 
-.leaflet-routing-alt tr:hover {
-    background-color: #eee;
+.leaflet-routing-alt table td:hover {
+    color: rgba(255, 255, 255, 1);
     cursor: pointer;
+	background-color: rgba(0, 0, 0, 0.6);
+}
+
+.leaflet-routing-alt table tr:hover {
+	background-color: rgba(0, 0, 0, 0.6);
 }
 
 .leaflet-routing-alt::-webkit-scrollbar {
@@ -74,9 +81,9 @@
 }
 
 .leaflet-routing-icon {
-    background-image: url('/images/leaflet.routing.icons.png');
-    -webkit-background-size: 240px 20px;
-    background-size: 240px 20px;
+    background-image: url('/images/mapbox.directions.icons.png');
+    -webkit-background-size: 280px 20px;
+    background-size: 280px 20px;
     background-repeat: no-repeat;
     margin: 0;
     content: '';
@@ -88,16 +95,16 @@
 
 .leaflet-routing-icon-continue         { background-position: 0 0; }
 .leaflet-routing-icon-sharp-right      { background-position: -20px 0; }
-.leaflet-routing-icon-turn-right       { background-position: -40px 0; }
-.leaflet-routing-icon-bear-right       { background-position: -60px 0; }
-.leaflet-routing-icon-u-turn           { background-position: -80px 0; }
-.leaflet-routing-icon-sharp-left       { background-position: -100px 0; }
-.leaflet-routing-icon-turn-left        { background-position: -120px 0; }
-.leaflet-routing-icon-bear-left        { background-position: -140px 0; }
-.leaflet-routing-icon-depart           { background-position: -160px 0; }
-.leaflet-routing-icon-enter-roundabout { background-position: -180px 0; }
-.leaflet-routing-icon-arrive           { background-position: -200px 0; }
-.leaflet-routing-icon-via              { background-position: -220px 0; }
+.leaflet-routing-icon-turn-right       { background-position: -50px 0; }
+.leaflet-routing-icon-bear-right       { background-position: -70px 0; }
+.leaflet-routing-icon-u-turn           { background-position: -97px 0; }
+.leaflet-routing-icon-sharp-left       { background-position: -120px 0; }
+.leaflet-routing-icon-turn-left        { background-position: -140px 0; }
+.leaflet-routing-icon-bear-left        { background-position: -168px 0; }
+.leaflet-routing-icon-depart           { background-position: -188px 0; }
+.leaflet-routing-icon-enter-roundabout { background-position: -210px 0; }
+.leaflet-routing-icon-arrive           { background-position: -237px 0; }
+.leaflet-routing-icon-via              { background-position: -260px 0; }
 
 .leaflet-routing-geocoders div {
     padding: 4px 0px 4px 0px;
@@ -125,7 +132,7 @@
 }
 
 .leaflet-routing-add-waypoint:after {
-    content: '+';
+    content: ' + ';
 }
 
 .leaflet-routing-reverse-waypoints:after {
@@ -139,6 +146,7 @@
 
 .leaflet-routing-geocoders input,.leaflet-routing-remove-waypoint,.leaflet-routing-geocoder {
     position: relative;
+	background-color: white;
 }
 
 .leaflet-routing-geocoder-result {
@@ -184,11 +192,9 @@
     width: 15px;
     height: 1px;
     z-index: 1;
-    right: 1px;
     top: 4px;
     bottom: 0;
     margin: auto;
-    padding: 2px;
     font-size: 18px;
     font-weight: bold;
     content: "\00d7";

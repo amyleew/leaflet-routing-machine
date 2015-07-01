@@ -72,7 +72,8 @@ var options = {
     containerClassName: "dark pad2",
     alternativeClassName: "mapbox-directions-instructions",
     stepClassName: "mapbox-directions-step",
-    geocodersClassName: "mapbox-directions-inputs"
+    geocodersClassName: "mapbox-directions-inputs",
+    itineraryBuilder: "mapbox-directions-steps",
   },
 
   popup: {
@@ -111,7 +112,6 @@ L.tileLayer(defaultView.layer + LRM.apiToken, {
 }).addTo(map);
 
 
-
 /*  Setup controls seperate from plan  */
 function createButton(label, container) {
     var btn = L.DomUtil.create('button', '', container);
@@ -139,42 +139,40 @@ var plan = new ReversablePlan([], {
   		position: 'topright',
   		useZoomParameter: true,
 		reverseWaypoints: true,
-		dragStyles: options.lrm.dragStyles
+		dragStyles: options.lrm.dragStyles,
+	    geocodersClassName: options.lrm.geocodersClassName
     }),
     control = L.Routing.control({
         routeWhileDragging: true,
         plan: plan,
-  		position: 'topleft',
         lineOptions: options.lrm.lineOptions,
-    	geocodersClassName: options.lrm.geocodersClassName
-    }).addTo(map),
-	/*  This is how you EXTEND a class, it just has all the options of it's base  */
-	SummaryBox = L.Routing.control({
 		summaryTemplate: options.lrm.summaryTemplate,
-	    containerClassName: options.lrm.containerClassName,
-    	alternativeClassName: options.lrm.alternativeClassName,
-    	//stepClassName: options.lrm.stepClassName
-	}).addTo(map);
+		containerClassName: options.lrm.containerClassName,
+	    alternativeClassName: options.lrm.alternativeClassName,
+	    stepClassName: options.lrm.stepClassName
+    }).addTo(map)//,
+	/*  This is how you EXTEND a class, it just has all the options of it's base  */
+	/*SummaryBox = L.Routing.control({
+
+	}).addTo(map);*/
 
 
 
 /*  Click on map to choose Start or End locations  */
 
-var started = false;
-var ended = false;
+var start = true;
+var end = false;
 
 map.on('click', function(e) {
-	var startPoint = e.latlng;
-	if (started) {
-		ended = true;
-		control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
-	} else {
-		started = true;
+	if (start) {
+		end = true;
+		start = false;
 		control.spliceWaypoints(0, 1, e.latlng);
+		//control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+	} else if (end) {
+		//control.spliceWaypoints(0, 1, e.latlng);
+		control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
 	}
 });
-
-
-
 
 
