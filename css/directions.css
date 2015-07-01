@@ -7,6 +7,13 @@
     font:15px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
+.mapbox-directions-summary {
+	background-color: white;
+	height: 100%;
+	width: 30%;
+	z-index: 20;
+}
+
 .mapbox-directions-inputs,
 .mapbox-directions-inputs *,
 .mapbox-directions-errors,

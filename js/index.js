@@ -56,70 +56,8 @@ var layers = {
   })
 };
 
-
-
-/* Initialize MAP */
-var map = L.map('map', {
-  zoomControl: false,
-  layers: layers[defaultView.layer]
-}).setView(defaultView.center, defaultView.zoom);
-
-/*  Overlay tileLayers */
-L.tileLayer(defaultView.layer + LRM.apiToken, {
-	attribution: 'Maps by <a href="https://www.mapbox.com/about/maps/">MapBox</a>. ' +
-		'Routes from <a href="http://project-osrm.org/">OSRM</a>, ' +
-		'data uses <a href="http://opendatacommons.org/licenses/odbl/">ODbL</a> license'
-}).addTo(map);
-
-
-/*  Setup controls seperate from plan  */
-function createButton(label, container) {
-    var btn = L.DomUtil.create('button', '', container);
-    btn.setAttribute('type', 'button');
-    btn.innerHTML = label;
-    return btn;
-}
-
-var ReversablePlan = L.Routing.Plan.extend({
-    createGeocoders: function() {
-        var container = L.Routing.Plan.prototype.createGeocoders.call(this)
-        return container;
-    }
-});
-
-var plan = new ReversablePlan([], {
-        geocoder: L.Control.Geocoder.nominatim(),
-        routeWhileDragging: true,
-  		position: 'topright',
-  		useZoomParameter: true,
-		reverseWaypoints: true
-    }),
-    control = L.Routing.control({
-        routeWhileDragging: true,
-        plan: plan,
-  		position: 'topleft'
-    }).addTo(map);
-
-
-var started = false;
-var ended = false;
-
-/*  Click on map to choose Start or End locations  */
-map.on('click', function(e) {
-	var startPoint = e.latlng;
-	if (started) {
-		ended = true;
-		control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
-	} else {
-		started = true;
-		control.spliceWaypoints(0, 1, e.latlng);
-	}
-});
-
-
 var options = {
   lrm: {
-    addButtonClassName: 'mapbox-directions-button-add',
     lineOptions: {
       styles: [
         {color: 'black', opacity: 0.35, weight: 8},
@@ -155,5 +93,88 @@ var options = {
     toolsContainerClass: 'fill-dark dark',
   }
 };
+
+
+
+
+/* Initialize MAP */
+var map = L.map('map', {
+  zoomControl: false,
+  layers: layers[defaultView.layer]
+}).setView(defaultView.center, defaultView.zoom);
+
+/*  Overlay tileLayers */
+L.tileLayer(defaultView.layer + LRM.apiToken, {
+	attribution: 'Maps by <a href="https://www.mapbox.com/about/maps/">MapBox</a>. ' +
+		'Routes from <a href="http://project-osrm.org/">OSRM</a>, ' +
+		'data uses <a href="http://opendatacommons.org/licenses/odbl/">ODbL</a> license'
+}).addTo(map);
+
+
+
+/*  Setup controls seperate from plan  */
+function createButton(label, container) {
+    var btn = L.DomUtil.create('button', '', container);
+    btn.setAttribute('type', 'button');
+    btn.innerHTML = label;
+    return btn;
+}
+
+/*  Override the control's L.Routing.Plan, since it method / function creates the panel you need.  */
+
+var ReversablePlan = L.Routing.Plan.extend({
+    createGeocoders: function() {
+        var container = L.Routing.Plan.prototype.createGeocoders.call(this)
+        return container;
+    }
+});
+
+// console.log();
+
+/* Create Control, Itineneray and Plan */
+
+var plan = new ReversablePlan([], {
+        geocoder: L.Control.Geocoder.nominatim(),
+        routeWhileDragging: true,
+  		position: 'topright',
+  		useZoomParameter: true,
+		reverseWaypoints: true,
+		dragStyles: options.lrm.dragStyles
+    }),
+    control = L.Routing.control({
+        routeWhileDragging: true,
+        plan: plan,
+  		position: 'topleft',
+        lineOptions: options.lrm.lineOptions,
+    	geocodersClassName: options.lrm.geocodersClassName
+    }).addTo(map),
+	/*  This is how you EXTEND a class, it just has all the options of it's base  */
+	SummaryBox = L.Routing.control({
+		summaryTemplate: options.lrm.summaryTemplate,
+	    containerClassName: options.lrm.containerClassName,
+    	alternativeClassName: options.lrm.alternativeClassName,
+    	//stepClassName: options.lrm.stepClassName
+	}).addTo(map);
+
+
+
+/*  Click on map to choose Start or End locations  */
+
+var started = false;
+var ended = false;
+
+map.on('click', function(e) {
+	var startPoint = e.latlng;
+	if (started) {
+		ended = true;
+		control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+	} else {
+		started = true;
+		control.spliceWaypoints(0, 1, e.latlng);
+	}
+});
+
+
+
 
 
